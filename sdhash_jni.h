@@ -15,6 +15,14 @@ extern "C" {
 JNIEXPORT jstring JNICALL Java_SDHash_1JNI_getSDBF
   (JNIEnv *, jobject, jstring, jbyteArray, jint);
 
+/*
+ * Class:     SDHash_JNI
+ * Method:    compare
+ * Signature: ([BI)Ljava/lang/String;
+ */
+JNIEXPORT jstring JNICALL Java_SDHash_1JNI_compare
+  (JNIEnv *, jobject, jbyteArray, jint);
+
 #ifdef __cplusplus
 }
 #endif

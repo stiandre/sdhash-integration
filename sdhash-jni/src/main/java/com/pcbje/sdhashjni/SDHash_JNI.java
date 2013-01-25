@@ -6,6 +6,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -43,20 +45,19 @@ public class SDHash_JNI {
         }
     }
 
-    public static void main(String[] args) throws Exception {
-        String digest1 = digest(args[0]);
-        String digest2 = digest(args[1]);
-
-        String compare = digest1 + digest2;
-
+    public static void main(String[] args) throws Exception {        
         SDHash_JNI jni = new SDHash_JNI();
-
-        System.out.println(jni.compare(compare.getBytes(), 16));
+        
+        StringBuilder digests = new StringBuilder();
+        
+        for (String filename : args) {
+            digests.append(digest(jni, filename));
+        }
+        
+        System.out.println(jni.compare(digests.toString().getBytes(), 16));
     }
 
-    private static String digest(String filename) throws Exception {
-        SDHash_JNI jni = new SDHash_JNI();
-
+    private static String digest(SDHash_JNI jni, String filename) throws Exception {
         File f = new File(filename);
 
         InputStream reader = new FileInputStream(f);

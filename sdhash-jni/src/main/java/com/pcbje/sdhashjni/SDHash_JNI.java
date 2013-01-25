@@ -17,16 +17,18 @@ public class SDHash_JNI {
 
     static {
         try {
-            InputStream in = SDHash_JNI.class.getClassLoader().getResourceAsStream("libsdhash.so");
-                        
-            File temp = File.createTempFile("tempfile", ".so");
+            String sdhash = "libsdhash.so";
+
+            InputStream in = SDHash_JNI.class.getClassLoader().getResourceAsStream(sdhash);
+
+            File temp = File.createTempFile(sdhash, "");
 
             OutputStream out = new FileOutputStream(temp);
 
             byte[] buffer = new byte[1024];
-            
+
             int len;
-            
+
             while ((len = in.read(buffer)) != -1) {
                 out.write(buffer, 0, len);
             }
@@ -34,7 +36,7 @@ public class SDHash_JNI {
             out.close();
 
             System.load(temp.getAbsolutePath());
-            
+
         } catch (IOException ex) {
             Logger.getLogger(SDHash_JNI.class.getName()).log(Level.SEVERE, null, ex);
             System.exit(1);

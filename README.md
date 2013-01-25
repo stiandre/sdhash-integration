@@ -1,7 +1,7 @@
 sdhash-jni
 ==========
 
-This is a modified version of the sdhash tool (http://roussev.net/sdhash/sdhash.html) with support for JNI.
+This is a modified version of sdhash 2.3 (http://roussev.net/sdhash/sdhash.html) with support for JNI.
 
 ### Building :
 

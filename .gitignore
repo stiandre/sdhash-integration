@@ -3,3 +3,15 @@
 *.svn-base
 
 .svn*
+
+*.o
+
+*.a
+
+*.so
+
+sdhash-jni/target
+
+sdhash-jni.jar
+
+external/project-config.jam*

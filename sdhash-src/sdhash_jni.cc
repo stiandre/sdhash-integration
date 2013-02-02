@@ -9,6 +9,26 @@
 #include <string>
 #include <fstream>
 
+JNIEXPORT jstring JNICALL Java_com_pcbje_sdhashjni_SDHash_1JNI_getSDBFFromFile
+(JNIEnv * env, jobject, jstring path, jstring filename, jint size) {
+	const char * p =  env->GetStringUTFChars(path, 0);
+	const char * fn =  env->GetStringUTFChars(filename, 0);
+	
+	char * data = new char[size];
+	
+	fstream file;
+	
+	file.open(p, ios::in | ios::binary);
+	
+	file.read(data, size);
+	
+	file.close();
+	
+	class sdbf *sdbfm = new sdbf(fn, data, 0, size);
+	
+	return env->NewStringUTF(sdbfm->to_string().c_str());
+}
+
 JNIEXPORT jstring JNICALL Java_com_pcbje_sdhashjni_SDHash_1JNI_getSDBF
 (JNIEnv * env, jobject, jstring filename, jbyteArray content, jint len) {		
 	const char * fn =  env->GetStringUTFChars(filename, 0);

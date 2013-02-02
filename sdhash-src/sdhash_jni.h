@@ -9,6 +9,14 @@ extern "C" {
 #endif
 /*
  * Class:     com_pcbje_sdhashjni_SDHash_JNI
+ * Method:    getSDBFFromFile
+ * Signature: (Ljava/lang/String;Ljava/lang/String;I)Ljava/lang/String;
+ */
+JNIEXPORT jstring JNICALL Java_com_pcbje_sdhashjni_SDHash_1JNI_getSDBFFromFile
+  (JNIEnv *, jobject, jstring, jstring, jint);
+
+/*
+ * Class:     com_pcbje_sdhashjni_SDHash_JNI
  * Method:    getSDBF
  * Signature: (Ljava/lang/String;[BI)Ljava/lang/String;
  */

@@ -11,17 +11,34 @@ import java.util.logging.Logger;
 
 public class SDHash_JNI {
 
+    private static final String os = System.getProperty("os.name").toLowerCase();
+    private static final SDHash_JNI jni = new SDHash_JNI();
+
+    private native String getSDBFFromFile(String path, String filename, int size);
+
     private native String getSDBF(String filename, byte[] content, int length);
 
     private native String compare(byte[] sdbfs, int threshold);
 
     static {
         try {
-            String sdhash = "libsdhash.so";
+            String libsdhash;
+            
+            if (isMac()) {
+                libsdhash = "libsdhash-osx.so";                
+            }
+            else if (isLinux()) {
+                libsdhash = "libsdhash-linux-x64.so";
+            }
+            else {
+                throw new Error("OS " + os + " is not supported");
+            }
+            
+            Logger.getLogger(SDHash_JNI.class.getName()).log(Level.INFO, "Loading {0}...", libsdhash);
 
-            InputStream in = SDHash_JNI.class.getClassLoader().getResourceAsStream(sdhash);
+            InputStream in = SDHash_JNI.class.getClassLoader().getResourceAsStream(libsdhash);
 
-            File temp = File.createTempFile(sdhash, "");
+            File temp = File.createTempFile(libsdhash, "");
 
             OutputStream out = new FileOutputStream(temp);
 
@@ -43,16 +60,22 @@ public class SDHash_JNI {
         }
     }
 
-    public static void main(String[] args) throws Exception {        
-        SDHash_JNI jni = new SDHash_JNI();
-        
+    public static void main(String[] args) throws Exception {
         StringBuilder digests = new StringBuilder();
-        
+
         for (String filename : args) {
             digests.append(digest(jni, filename));
         }
-        
+
         System.out.println(jni.compare(digests.toString().getBytes(), 16));
+    }
+
+    public static String digestBytes(String filename, byte[] content) {
+        return jni.getSDBF(filename, content, content.length);
+    }
+
+    public static String digestFile(String path, String filename, int size) {
+        return jni.getSDBFFromFile(path, filename, size);
     }
 
     private static String digest(SDHash_JNI jni, String filename) throws Exception {
@@ -67,5 +90,13 @@ public class SDHash_JNI {
         reader.close();
 
         return jni.getSDBF(f.getName(), in, (int) f.length());
+    }
+
+    private static boolean isMac() {
+        return (os.indexOf("mac") >= 0);
+    }
+
+    private static boolean isLinux() {
+        return os.indexOf("linux") >= 0;
     }
 }

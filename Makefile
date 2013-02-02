@@ -1,7 +1,5 @@
 # Makefile for sdhash-jni.  Change options at top if necessary
 
-JAVA_JNI_DIR=/Developer/SDKs/MacOSX10.5.sdk/System/Library/Frameworks/JavaVM.framework/Versions/A/Headers/
-
 DESTDIR=
 PREFIX=$(DESTDIR)/usr/local
 INSTDIR=$(PREFIX)/bin
@@ -16,7 +14,13 @@ SDHASH_SRC = sdhash-src/sdhash.cc sdhash-src/sdhash_threads.cc sdhash-src/sdhash
 CC = g++
 LD = $(CC)
 
+# OSX
+JAVA_JNI_DIR=/Developer/SDKs/MacOSX10.5.sdk/System/Library/Frameworks/JavaVM.framework/Versions/A/Headers/
 CFLAGS = -fPIC -O3 -fno-strict-aliasing -D_FILE_OFFSET_BITS=64 -D_LARGE_FILE_API -D_BSD_SOURCE -I./external -I $(JAVA_JNI_DIR)
+
+# Linux:
+# JAVA_JNI_DIR=/root/jdk1.6.0_39/include
+# CFLAGS = -fPIC -fno-strict-aliasing -D_FILE_OFFSET_BITS=64 -D_LARGE_FILE_API -D_BSD_SOURCE -I./external -I $(JAVA_JNI_DIR) -I $(JAVA_JNI_DIR)/linux
 
 SDHASH_OBJ = $(SDHASH_SRC:.cc=.o)
 SDBF_OBJ = $(SDBF_SRC:.cc=.o)
@@ -54,7 +58,7 @@ jni:
 	mvn -f sdhash-jni/pom.xml clean install	
 	#javah -o sdhash-src/sdhash_jni.h -classpath sdhash-jni/target/classes com.pcbje.sdhashjni.SDHash_JNI
 	$(LD) $(SDHASH_OBJ) $(SDHASH_CLIENT_OBJ) $(LIBSDBF) $(LDFLAGS)
-	mv sdhash-jni/target/sdhash-jni.jar .
+	cp -p sdhash-jni/target/sdhash-jni.jar .
 
 .cc.o:
 	$(CC) $(CFLAGS) $(INCLUDES) -c $*.cc -o $*.o

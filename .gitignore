@@ -8,8 +8,6 @@
 
 *.a
 
-*.so
-
 sdhash-jni/target
 
 sdhash-jni.jar
@@ -21,10 +19,6 @@ external/b2
 *.log
 
 external/bjam
-
-external/tools/build/v2/engine/bootstrap/jam0
-
-external/tools/build/v2/engine/bootstrap/jam0
 
 external/tools/build/v2/engine/bootstrap/jam0
 

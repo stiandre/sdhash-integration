@@ -1,11 +1,7 @@
-# Makefile for sdhash-jni.  Change options at top if necessary
-
 DESTDIR=
 PREFIX=$(DESTDIR)/usr/local
 INSTDIR=$(PREFIX)/bin
 MANDIR=$(PREFIX)/share/man/man1
-
-SHARED_LIB=libsdhash.so
 
 SDBF_SRC = sdbf/sdbf_class.cc sdbf/sdbf_core.cc sdbf/map_file.cc sdbf/entr64.cc sdbf/base64.cc sdbf/bf_utils.cc sdbf/error.cc sdbf/sdbf_conf.cc sdbf/sdbf_set.cc base64/modp_b64.cc
 
@@ -15,10 +11,12 @@ CC = g++
 LD = $(CC)
 
 # OSX
+SHARED_LIB=libsdhash-osx.so
 JAVA_JNI_DIR=/Developer/SDKs/MacOSX10.5.sdk/System/Library/Frameworks/JavaVM.framework/Versions/A/Headers/
 CFLAGS = -fPIC -O3 -fno-strict-aliasing -D_FILE_OFFSET_BITS=64 -D_LARGE_FILE_API -D_BSD_SOURCE -I./external -I $(JAVA_JNI_DIR)
 
 # Linux:
+# SHARED_LIB=libsdhash-linux-x64.so
 # JAVA_JNI_DIR=/root/jdk1.6.0_39/include
 # CFLAGS = -fPIC -fno-strict-aliasing -D_FILE_OFFSET_BITS=64 -D_LARGE_FILE_API -D_BSD_SOURCE -I./external -I $(JAVA_JNI_DIR) -I $(JAVA_JNI_DIR)/linux
 
@@ -29,7 +27,7 @@ LDFLAGS = -L . -L./external/stage/lib -lboost_regex -lboost_system -lboost_files
 
 LIBSDBF=libsdbf.a
 
-all: boost stream jni
+all: stream jni
 
 sdbf.i:
 
@@ -38,9 +36,6 @@ $(LIBSDBF): $(SDBF_OBJ)
 
 stream: $(SDHASH_OBJ) $(LIBSDBF)
 	$(LD) $(SDHASH_OBJ) $(SDHASH_CLIENT_OBJ) $(LIBSDBF) $(LDFLAGS) 
-
-boost: 
-	cd external ; ./bootstrap.sh ; ./b2 link=static ; cd -
 
 clean:
 	-@rm *.o sdhash 2> /dev/null || true

@@ -19,6 +19,8 @@ public class SDHash_JNI {
     private native String getSDBF(String filename, byte[] content, int length);
 
     private native String compare(byte[] sdbfs, int threshold);
+    
+    private native String compare(String filename, int threshold);
 
     static {
         try {
@@ -63,11 +65,19 @@ public class SDHash_JNI {
     public static void main(String[] args) throws Exception {
         StringBuilder digests = new StringBuilder();
 
-        for (String filename : args) {
-            digests.append(digest(jni, filename));
+        for (int i=0; i<args.length; i++) {
+            digests.append(digest(jni, args[i]));
         }
+        
+        File tmpfile = File.createTempFile("sdhash-compare", "txt");
 
-        System.out.println(jni.compare(digests.toString().getBytes(), 16));
+	FileOutputStream fos = new FileOutputStream(tmpfile);
+
+        fos.write(digests.toString().getBytes());
+        
+        fos.close();
+
+        System.out.println(jni.compare(tmpfile.getAbsolutePath(), 16));
     }
 
     public static String digestBytes(String filename, byte[] content) {

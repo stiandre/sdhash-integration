@@ -9,3 +9,11 @@ This is a modified version of sdhash 2.3 (http://roussev.net/sdhash/sdhash.html)
 - Configure the parameter JAVA_JNI_DIR in Makefile to point to the folder containing 'jni.h'.
 - Run 'make'.
 - Test: 'java -jar sdhash-jni.jar filepath1 filepath2 [...] filepathN'
+
+
+#### On linux:
+
+- cd sdhash-jni
+- rm -rf external/boost*
+- apt-get install libboost-all-dev
+- make

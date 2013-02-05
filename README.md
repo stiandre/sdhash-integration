@@ -14,7 +14,6 @@ This is a modified version of sdhash 2.3 (http://roussev.net/sdhash/sdhash.html)
 #### On linux:
 
 - cd sdhash-jni
-- Uncomment linux JNI_DIR and CFLAGS in Makefile
-- rm -rf external/boost*
+- Uncomment linux JNI_DIR, SHARED_LIB and CFLAGS in Makefile
 - apt-get install libboost-all-dev
 - make

@@ -40,7 +40,7 @@ JNIEXPORT jstring JNICALL Java_com_pcbje_sdhashjni_SDHash_1JNI_getSDBF
 	return env->NewStringUTF(sdbfm->to_string().c_str());	
 }
 
-JNIEXPORT jstring JNICALL Java_com_pcbje_sdhashjni_SDHash_1JNI_compare
+JNIEXPORT jstring JNICALL Java_com_pcbje_sdhashjni_SDHash_1JNI_compare___3BI
 (JNIEnv * env, jobject, jbyteArray content, jint threshold) {	
 	char * data = (char*)env->GetByteArrayElements(content, false);  
 	
@@ -50,9 +50,7 @@ JNIEXPORT jstring JNICALL Java_com_pcbje_sdhashjni_SDHash_1JNI_compare
 	
 	rewind(in);
 	
-	sdbf_set *set1 = new sdbf_set();
-	
-	set1=new sdbf_set(in);	
+	sdbf_set *set1 = new sdbf_set("text.txt");	
 	
 	fclose(in);
 	
@@ -62,3 +60,17 @@ JNIEXPORT jstring JNICALL Java_com_pcbje_sdhashjni_SDHash_1JNI_compare
 	
 	return env->NewStringUTF(resultlist.c_str());
 }
+
+
+JNIEXPORT jstring JNICALL Java_com_pcbje_sdhashjni_SDHash_1JNI_compare__Ljava_lang_String_2I
+(JNIEnv * env, jobject, jstring filename, jint threshold) {	
+	sdbf_set *set1 = new sdbf_set(env->GetStringUTFChars(filename, 0));	
+	
+	std::string resultlist;
+	
+	resultlist=set1->compare_all(threshold);
+	
+	return env->NewStringUTF(resultlist.c_str());
+}
+
+

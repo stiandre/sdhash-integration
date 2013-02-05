@@ -28,8 +28,16 @@ JNIEXPORT jstring JNICALL Java_com_pcbje_sdhashjni_SDHash_1JNI_getSDBF
  * Method:    compare
  * Signature: ([BI)Ljava/lang/String;
  */
-JNIEXPORT jstring JNICALL Java_com_pcbje_sdhashjni_SDHash_1JNI_compare
+JNIEXPORT jstring JNICALL Java_com_pcbje_sdhashjni_SDHash_1JNI_compare___3BI
   (JNIEnv *, jobject, jbyteArray, jint);
+
+/*
+ * Class:     com_pcbje_sdhashjni_SDHash_JNI
+ * Method:    compare
+ * Signature: (Ljava/lang/String;I)Ljava/lang/String;
+ */
+JNIEXPORT jstring JNICALL Java_com_pcbje_sdhashjni_SDHash_1JNI_compare__Ljava_lang_String_2I
+  (JNIEnv *, jobject, jstring, jint);
 
 #ifdef __cplusplus
 }

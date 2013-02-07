@@ -79,6 +79,10 @@ public class SDHash_JNI {
 
         System.out.println(jni.compare(tmpfile.getAbsolutePath(), 16));
     }
+    
+    public static String compare(String filepath) {
+        return jni.compare(filepath, 16);
+    }
 
     public static String digestBytes(String filename, byte[] content) {
         return jni.getSDBF(filename, content, content.length);

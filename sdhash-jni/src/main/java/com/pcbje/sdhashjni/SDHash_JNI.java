@@ -14,13 +14,9 @@ public class SDHash_JNI {
     private static final String os = System.getProperty("os.name").toLowerCase();
     private static final SDHash_JNI jni = new SDHash_JNI();
 
-    private native String getSDBFFromFile(String path, String filename, int size);
-
     private native String getSDBF(String filename, byte[] content, int length);
 
     private native String compare(byte[] sdbfs, int threshold);
-    
-    private native String compare(String filename, int threshold);
 
     static {
         try {
@@ -77,19 +73,15 @@ public class SDHash_JNI {
         
         fos.close();
 
-        System.out.println(jni.compare(tmpfile.getAbsolutePath(), 16));
+        System.out.println(jni.compare(digests.toString().getBytes(), 16));
+    }
+
+    public static String compare(byte[] sdbf) {
+        return jni.compare(sdbf, 16);
     }
     
-    public static String compare(String filepath) {
-        return jni.compare(filepath, 16);
-    }
-
     public static String digestBytes(String filename, byte[] content) {
         return jni.getSDBF(filename, content, content.length);
-    }
-
-    public static String digestFile(String path, String filename, int size) {
-        return jni.getSDBFFromFile(path, filename, size);
     }
 
     private static String digest(SDHash_JNI jni, String filename) throws Exception {

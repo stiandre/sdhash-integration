@@ -42,23 +42,37 @@ JNIEXPORT jstring JNICALL Java_com_pcbje_sdhashjni_SDHash_1JNI_getSDBF
 
 JNIEXPORT jstring JNICALL Java_com_pcbje_sdhashjni_SDHash_1JNI_compare___3BI
 (JNIEnv * env, jobject, jbyteArray content, jint threshold) {	
-	char * data = (char*)env->GetByteArrayElements(content, false);  
+	try {
+		char * data = (char*)env->GetByteArrayElements(content, false);  
+
+		cout << data;
+		cout << "\n";
 	
-	FILE * in = tmpfile ();
+		FILE * in = tmpfile ();
+
+		fputs (data,in);
+
+		rewind(in);
+
+		sdbf_set *set1 = new sdbf_set(in);	
+
+		fclose(in);
 	
-	fputs (data,in);
+		std::string resultlist;
 	
-	rewind(in);
+		resultlist=set1->compare_all(threshold);
 	
-	sdbf_set *set1 = new sdbf_set("text.txt");	
-	
-	fclose(in);
-	
-	std::string resultlist;
-	
-	resultlist=set1->compare_all(threshold);
-	
-	return env->NewStringUTF(resultlist.c_str());
+		return env->NewStringUTF(resultlist.c_str());
+	}
+	catch (int e) {		
+		std::stringstream out;
+
+		out << e;
+
+		return env->NewStringUTF(out.str().c_str());		
+	}
+
+	return NULL;
 }
 
 

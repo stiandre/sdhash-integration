@@ -151,6 +151,7 @@ sdbf::sdbf(FILE *in) {
                 break;
         }
     }
+
     if( feof( in))
         throw -3 ; // end of file prematurely
     buffer[i] = 0;
@@ -187,12 +188,15 @@ sdbf::sdbf(FILE *in) {
         b64_len = 4*(b64_len/3 +1*(b64_len % 3 > 0 ? 1 : 0));
         sprintf( &fmt[1], "%ds", b64_len);
         b64 = (char*)alloc_check( ALLOC_ZERO, b64_len+2, "sdbf_from_stream", "b64", ERROR_EXIT);
+
         read_cnt = fscanf( in, fmt, b64);
 		free(this->buffer);
         this->buffer =(uint8_t*) b64decode( (char*)b64, (int)b64_len, &d_len);
+
         if( d_len != this->bf_count*this->bf_size) {
+		cout << "\nwtf?\n";
             if (config->warnings)
-                fprintf( stderr, "ERROR: Incorrect base64 decoding length. Expected: %d, actual: %d\n", this->bf_count*this->bf_size, d_len);
+                fprintf( stderr, "ERROR: Incorrect base64 decoding length. Expected: %d, actual: %d\n", this->bf_count*this->bf_size, d_len);		
             free (b64); // cleanup in case of wanting to go on
             throw -2; // unsupported format, caller should exit
         }

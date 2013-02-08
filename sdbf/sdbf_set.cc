@@ -67,6 +67,7 @@ sdbf_set::sdbf_set(FILE *in) {
 			try {
 				sdbfm = new sdbf( in);
 			} catch (int e) {
+				cout << "Error: " << e;
 				break;
 			}
             items.push_back( sdbfm);

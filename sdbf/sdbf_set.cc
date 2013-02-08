@@ -63,7 +63,12 @@ sdbf_set::sdbf_set(FILE *in) {
 			ungetc(bar,in);
 		}
 		while( !feof( in)) {
-			class sdbf *sdbfm = new sdbf( in);
+			class sdbf *sdbfm;
+			try {
+				sdbfm = new sdbf( in);
+			} catch (int e) {
+				break;
+			}
             items.push_back( sdbfm);
             getc( in);
             int bar=getc( in);

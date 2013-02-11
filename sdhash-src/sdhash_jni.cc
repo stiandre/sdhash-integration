@@ -9,7 +9,7 @@ JNIEXPORT jstring JNICALL Java_com_pcbje_sdhashjni_SDHash_1JNI_getSDBF
 	
 	char * data = (char*)env->GetByteArrayElements(content, false);  
 
-	class sdbf *sdbfm = new sdbf(fn, data, 0, len);
+	class sdbf * sdbfm = new sdbf(fn, data, 0, len);
 	
 	return env->NewStringUTF(sdbfm->to_string().c_str());	
 }
@@ -24,13 +24,11 @@ JNIEXPORT jstring JNICALL Java_com_pcbje_sdhashjni_SDHash_1JNI_compare
 
 	rewind(in);
 	
-	sdbf_set *set1 = new sdbf_set(in);	
+	sdbf_set * set1 = new sdbf_set(in);	
 	
 	fclose(in);
 	
-	std::string resultlist;
-	
-	resultlist=set1->compare_all(threshold);
+	std::string resultlist = set1->compare_all(threshold);
 	
 	return env->NewStringUTF(resultlist.c_str());
 }

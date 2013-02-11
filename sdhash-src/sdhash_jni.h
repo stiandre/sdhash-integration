@@ -9,14 +9,6 @@ extern "C" {
 #endif
 /*
  * Class:     com_pcbje_sdhashjni_SDHash_JNI
- * Method:    getSDBFFromFile
- * Signature: (Ljava/lang/String;Ljava/lang/String;I)Ljava/lang/String;
- */
-JNIEXPORT jstring JNICALL Java_com_pcbje_sdhashjni_SDHash_1JNI_getSDBFFromFile
-  (JNIEnv *, jobject, jstring, jstring, jint);
-
-/*
- * Class:     com_pcbje_sdhashjni_SDHash_JNI
  * Method:    getSDBF
  * Signature: (Ljava/lang/String;[BI)Ljava/lang/String;
  */
@@ -26,17 +18,9 @@ JNIEXPORT jstring JNICALL Java_com_pcbje_sdhashjni_SDHash_1JNI_getSDBF
 /*
  * Class:     com_pcbje_sdhashjni_SDHash_JNI
  * Method:    compare
- * Signature: ([BI)Ljava/lang/String;
- */
-JNIEXPORT jstring JNICALL Java_com_pcbje_sdhashjni_SDHash_1JNI_compare___3BI
-  (JNIEnv *, jobject, jbyteArray, jint);
-
-/*
- * Class:     com_pcbje_sdhashjni_SDHash_JNI
- * Method:    compare
  * Signature: (Ljava/lang/String;I)Ljava/lang/String;
  */
-JNIEXPORT jstring JNICALL Java_com_pcbje_sdhashjni_SDHash_1JNI_compare__Ljava_lang_String_2I
+JNIEXPORT jstring JNICALL Java_com_pcbje_sdhashjni_SDHash_1JNI_compare
   (JNIEnv *, jobject, jstring, jint);
 
 #ifdef __cplusplus

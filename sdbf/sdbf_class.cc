@@ -194,7 +194,6 @@ sdbf::sdbf(FILE *in) {
         this->buffer =(uint8_t*) b64decode( (char*)b64, (int)b64_len, &d_len);
 
         if( d_len != this->bf_count*this->bf_size) {
-		cout << "\nwtf?\n";
             if (config->warnings)
                 fprintf( stderr, "ERROR: Incorrect base64 decoding length. Expected: %d, actual: %d\n", this->bf_count*this->bf_size, d_len);		
             free (b64); // cleanup in case of wanting to go on

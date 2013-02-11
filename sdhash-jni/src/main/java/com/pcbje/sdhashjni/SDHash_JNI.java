@@ -16,7 +16,7 @@ public class SDHash_JNI {
 
     private native String getSDBF(String filename, byte[] content, int length);
 
-    private native String compare(byte[] sdbfs, int threshold);
+    private native String compare(String sdbfs, int threshold);
 
     static {
         try {
@@ -73,10 +73,10 @@ public class SDHash_JNI {
         
         fos.close();
 
-        System.out.println(jni.compare(digests.toString().getBytes(), 16));
+        System.out.println(jni.compare(digests.toString(), 16));
     }
 
-    public static String compare(byte[] sdbf) {
+    public static String compare(String sdbf) {
         return jni.compare(sdbf, 16);
     }
     

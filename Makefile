@@ -3,6 +3,8 @@ PREFIX=$(DESTDIR)/usr/local
 INSTDIR=$(PREFIX)/bin
 MANDIR=$(PREFIX)/share/man/man1
 
+SHARED_LIB=libsdhash_jni.so
+
 SDBF_SRC = sdbf/sdbf_class.cc sdbf/sdbf_core.cc sdbf/map_file.cc sdbf/entr64.cc sdbf/base64.cc sdbf/bf_utils.cc sdbf/error.cc sdbf/sdbf_conf.cc sdbf/sdbf_set.cc base64/modp_b64.cc
 
 SDHASH_SRC = sdhash-src/sdhash.cc sdhash-src/sdhash_threads.cc sdhash-src/sdhash_jni.cc
@@ -15,7 +17,7 @@ CFLAGS = -fPIC -O3 -fno-strict-aliasing -D_FILE_OFFSET_BITS=64 -D_LARGE_FILE_API
 SDHASH_OBJ = $(SDHASH_SRC:.cc=.o)
 SDBF_OBJ = $(SDBF_SRC:.cc=.o)
 
-LDFLAGS = -L . -L./external/stage/lib -lboost_regex -lboost_system -lboost_filesystem -lboost_program_options -lc -lm -lcrypto -lboost_thread -lpthread -shared -W,soname -o $(SHARED_LIB)
+LDFLAGS = -L . -L./external/stage/lib -lboost_regex -lboost_system -lboost_filesystem -lboost_program_options -lc -lm -lcrypto -lboost_thread -lpthread -shared -Wl,-soname -o $(SHARED_LIB)
 
 LIBSDBF=libsdbf.a
 
@@ -40,12 +42,17 @@ clean:
 veryclean: clean
 	cd external; ./b2 --clean ; cd -
 
-jni:
-	cp -p $(SHARED_LIB) ./sdhash-jni/src/main/resources/
-	mvn -f sdhash-jni/pom.xml clean install	
-	#javah -o sdhash-src/sdhash_jni.h -classpath sdhash-jni/target/classes com.pcbje.sdhashjni.SDHash_JNI
+generate_header:
+	mvn -f sdhash-jni/pom.xml clean install
+	javah -o sdhash-src/sdhash_jni.h -classpath sdhash-jni/target/classes com.pcbje.sdhashjni.SDHash_JNI
+
+standalone:
 	$(LD) $(SDHASH_OBJ) $(SDHASH_CLIENT_OBJ) $(LIBSDBF) $(LDFLAGS)
-	cp -p sdhash-jni/target/sdhash-jni.jar .
+	mv $(SHARED_LIB) ./sdhash-jni/src/main/resources/
+	mvn -f sdhash-jni/pom.xml clean install	
+
+shared_only:
+	$(LD) $(SDHASH_OBJ) $(SDHASH_CLIENT_OBJ) $(LIBSDBF) $(LDFLAGS)
 
 .cc.o:
 	$(CC) $(CFLAGS) $(INCLUDES) -c $*.cc -o $*.o

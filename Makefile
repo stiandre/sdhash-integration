@@ -17,7 +17,7 @@ LD = $(CC)
 
 # Deft 7.2:
 SHARED_LIB=libsdhash-linux-x64.so
-JAVA_JNI_DIR=/usr/lib/jvm/java-1.7.0-openjdk/include
+JAVA_JNI_DIR=/usr/lib/jvm/java-1.6.0-openjdk/include
 CFLAGS = -fPIC -fno-strict-aliasing -D_FILE_OFFSET_BITS=64 -D_LARGE_FILE_API -D_BSD_SOURCE -I./external -I $(JAVA_JNI_DIR) -I $(JAVA_JNI_DIR)/linux
 
 SDHASH_OBJ = $(SDHASH_SRC:.cc=.o)

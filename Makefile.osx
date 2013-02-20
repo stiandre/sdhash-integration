@@ -11,7 +11,7 @@ CC = g++
 LD = $(CC)
 
 SHARED_LIB=libsdhash-osx.so
-JAVA_JNI_DIR=/Developer/SDKs/MacOSX10.5.sdk/System/Library/Frameworks/JavaVM.framework/#Versions/A/Headers/
+JAVA_JNI_DIR=$(/usr/libexec/java_home)/include
 CFLAGS = -fPIC -O3 -fno-strict-aliasing -D_FILE_OFFSET_BITS=64 -D_LARGE_FILE_API -D_BSD_SOURCE -I./external -I $(JAVA_JNI_DIR)
 
 SDHASH_OBJ = $(SDHASH_SRC:.cc=.o)

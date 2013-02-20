@@ -13,4 +13,4 @@ $ make standalone JAVA_JNI_DIR=/usr/lib/jvm/java-1.6.0-openjdk/include</code></p
 
 Then run:
 
-<pre><code>$ java -jar sdhash-jni/target/sdhash-jni.har file1 file2 ... fileN</code></pre>
+<pre><code>$ java -jar sdhash-jni/target/sdhash-jni.jar file1 file2 ... fileN</code></pre>

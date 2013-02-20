@@ -9,5 +9,8 @@ This is a modified version of sdhash 2.3 (http://roussev.net/sdhash/sdhash.html)
 $ sudo update-alternatives --config javac
 $ git clone https://github.com/pcbje/sdhash-jni.git
 $ cd sdhash-jni
-$ make standalone JAVA_JNI_DIR=/usr/lib/jvm/java-1.6.0-openjdk/include
-$ java -jar sdhash-jni/target/sdhash-jni.har file1 file2 ... fileN</code></pre>
+$ make standalone JAVA_JNI_DIR=/usr/lib/jvm/java-1.6.0-openjdk/include</code></pre>
+
+Then run:
+
+<pre><code>$ java -jar sdhash-jni/target/sdhash-jni.har file1 file2 ... fileN</code></pre>

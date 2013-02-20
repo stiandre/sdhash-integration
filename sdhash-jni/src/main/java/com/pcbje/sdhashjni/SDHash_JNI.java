@@ -20,17 +20,11 @@ public class SDHash_JNI {
 
     static {
         try {
-            String libsdhash;
-            
-            if (isMac()) {
-                libsdhash = "libsdhash-osx.so";                
-            }
-            else if (isLinux()) {
-                libsdhash = "libsdhash-linux-x64.so";
-            }
-            else {
+            if (!isLinux()) {        
                 throw new Error("OS " + os + " is not supported");
             }
+            
+            String libsdhash = "libsdhash_jni.so";
             
             Logger.getLogger(SDHash_JNI.class.getName()).log(Level.INFO, "Loading {0}...", libsdhash);
 
@@ -96,10 +90,6 @@ public class SDHash_JNI {
         reader.close();
 
         return jni.getSDBF(f.getName(), in, (int) f.length());
-    }
-
-    private static boolean isMac() {
-        return (os.indexOf("mac") >= 0);
     }
 
     private static boolean isLinux() {

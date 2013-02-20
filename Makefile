@@ -37,10 +37,14 @@ clean:
 	-@rm base64/*.o 2> /dev/null || true
 	-@rm libsdbf.a sdhash-jni.jar 2> /dev/null || true
 	-@rm sdhash-jni/src/main/resources/$(SHARED_LIB) 2> /dev/null || true
+	-@rm -rf build 2> /dev/null || true
 	-@rm -rf sdhash-jni/target 2> /dev/null || true
 
 veryclean: clean
 	cd external; ./b2 --clean ; cd -
+
+build_jar:
+	mvn -f sdhash-jni/pom.xml clean install
 
 generate_header:
 	mvn -f sdhash-jni/pom.xml clean install
@@ -52,7 +56,9 @@ standalone:
 	mvn -f sdhash-jni/pom.xml clean install	
 
 shared_only:
+	rm -rf build
+	mkdir build
 	$(LD) $(SDHASH_OBJ) $(SDHASH_CLIENT_OBJ) $(LIBSDBF) $(LDFLAGS)
-
+	mv $(SHARED_LIB) build/
 .cc.o:
 	$(CC) $(CFLAGS) $(INCLUDES) -c $*.cc -o $*.o

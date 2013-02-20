@@ -15,9 +15,9 @@ LD = $(CC)
 #JAVA_JNI_DIR=/Developer/SDKs/MacOSX10.5.sdk/System/Library/Frameworks/JavaVM.framework/#Versions/A/Headers/
 #CFLAGS = -fPIC -O3 -fno-strict-aliasing -D_FILE_OFFSET_BITS=64 -D_LARGE_FILE_API -D_BSD_SOURCE -I./external -I $(JAVA_JNI_DIR)
 
-# Linux:
+# Deft 7.2:
 SHARED_LIB=libsdhash-linux-x64.so
-JAVA_JNI_DIR=/usr/lib/jvm/openjdk-7-jdk/include
+JAVA_JNI_DIR=/usr/lib/jvm/java-1.7.0-openjdk/include
 CFLAGS = -fPIC -fno-strict-aliasing -D_FILE_OFFSET_BITS=64 -D_LARGE_FILE_API -D_BSD_SOURCE -I./external -I $(JAVA_JNI_DIR) -I $(JAVA_JNI_DIR)/linux
 
 SDHASH_OBJ = $(SDHASH_SRC:.cc=.o)

@@ -5,7 +5,7 @@ This is a modified version of sdhash 2.3 (http://roussev.net/sdhash/sdhash.html)
 
 ### Compile standalone on linux:
 
-<pre><code>$ sudo apt-get install libssl-dev g++ maven2 openjdk-6-jdk make
+<pre><code>$ sudo apt-get install git libssl-dev g++ maven2 openjdk-6-jdk make
 $ sudo update-alternatives --config javac
 $ git clone https://github.com/pcbje/sdhash-jni.git
 $ cd sdhash-jni

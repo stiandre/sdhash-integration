@@ -46,7 +46,7 @@ veryclean: clean
 build_jar:
 	mvn -f sdhash-jni/pom.xml clean install
 
-generate_header:
+build_header:
 	mvn -f sdhash-jni/pom.xml clean install
 	javah -o sdhash-src/sdhash_jni.h -classpath sdhash-jni/target/classes com.pcbje.sdhashjni.SDHash_JNI
 

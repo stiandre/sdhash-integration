@@ -5,7 +5,8 @@ This is a modified version of sdhash 2.3 (http://roussev.net/sdhash/sdhash.html)
 
 ### Compile standalone on linux:
 
-<pre><code>$ git clone https://github.com/pcbje/sdhash-jni.git
-$ sudo apt-get install libssl-dev g++ maven2 openjdk-6-jdk make
+<pre><code>$ sudo apt-get install libssl-dev g++ maven2 openjdk-6-jdk make
+$ git clone https://github.com/pcbje/sdhash-jni.git
+$ cd sdhash-jni
 $ make standalone JAVA_JNI_DIR=/path/to/jdk/include
 $ java -jar sdhash-jni/target/sdhash-jni.har file1 file2 ... fileN</code></pre>

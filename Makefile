@@ -10,8 +10,6 @@ SDHASH_SRC = sdhash-src/sdhash.cc sdhash-src/sdhash_threads.cc sdhash-src/sdhash
 CC = g++
 LD = $(CC)
 
-SHARED_LIB=libsdhash-osx.so
-JAVA_JNI_DIR=$(/usr/libexec/java_home)/include
 CFLAGS = -fPIC -O3 -fno-strict-aliasing -D_FILE_OFFSET_BITS=64 -D_LARGE_FILE_API -D_BSD_SOURCE -I./external -I $(JAVA_JNI_DIR)
 
 SDHASH_OBJ = $(SDHASH_SRC:.cc=.o)
@@ -28,8 +26,8 @@ sdbf.i:
 $(LIBSDBF): $(SDBF_OBJ) 
 	ar r $(LIBSDBF) $(SDBF_OBJ)
 
-stream: $(SDHASH_OBJ) $(LIBSDBF)
-	$(LD) $(SDHASH_OBJ) $(SDHASH_CLIENT_OBJ) $(LIBSDBF) $(LDFLAGS) 
+stream: $(SDHASH_OBJ) $(LIBSDBF)	
+	$(LD) $(SDHASH_OBJ) $(SDHASH_CLIENT_OBJ) $(LIBSDBF) $(LDFLAGS)
 
 clean:
 	-@rm *.o sdhash 2> /dev/null || true

@@ -1,4 +1,4 @@
-sdhash-jni (pre-alpha version)
+sdhash-jni (pre-alpha)
 ==========
 
 This is a modified version of sdhash 2.3 (http://roussev.net/sdhash/sdhash.html) with support for JNI.

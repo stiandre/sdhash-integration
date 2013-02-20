@@ -1,19 +1,9 @@
-sdhash-jni
+sdhash-jni (pre-alpha version)
 ==========
 
 This is a modified version of sdhash 2.3 (http://roussev.net/sdhash/sdhash.html) with support for JNI.
 
-### Building :
+### Compile on linux:
 
-- Install Maven.
-- Configure the parameter JAVA_JNI_DIR in Makefile to point to the folder containing 'jni.h'.
-- Run 'make'.
-- Test: 'java -jar sdhash-jni.jar filepath1 filepath2 [...] filepathN'
-
-
-#### On linux:
-
-- cd sdhash-jni
-- Uncomment linux JNI_DIR, SHARED_LIB and CFLAGS in Makefile
-- apt-get install libboost-all-dev
-- make
+sudo apt-get install libssl-dev g++ maven2 openjdk-6-jdk make
+make JAVA_JNI_PATH=/path/to/jdk/include

@@ -20,7 +20,7 @@ public class SDHash_JNI {
 
     static {
         try {
-            if (!isLinux()) {        
+            if (os.indexOf("linux") < 0) {        
                 throw new Error("OS " + os + " is not supported");
             }
             
@@ -90,9 +90,5 @@ public class SDHash_JNI {
         reader.close();
 
         return jni.getSDBF(f.getName(), in, (int) f.length());
-    }
-
-    private static boolean isLinux() {
-        return os.indexOf("linux") >= 0;
     }
 }

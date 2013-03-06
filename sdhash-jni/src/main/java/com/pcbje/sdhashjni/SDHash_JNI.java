@@ -24,11 +24,10 @@ public class SDHash_JNI {
                 throw new Error("OS " + os + " is not supported");
             }
 
-            String libsdhash = "libsdhash_jni.so";
-            String libboost = "libboost_system.so.1.49.0";
+            String libsdhash = "libsdhash_jni.so";            
 
             loadLib(libsdhash);
-            loadLib(libboost);
+            
 
         } catch (IOException ex) {
             Logger.getLogger(SDHash_JNI.class.getName()).log(Level.SEVERE, null, ex);

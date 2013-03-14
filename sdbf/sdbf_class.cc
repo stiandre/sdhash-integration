@@ -114,7 +114,7 @@ sdbf::sdbf(const char *name, char *str, uint32_t dd_block_size, uint64_t length)
         this->bf_count = dd_block_cnt;
         this->dd_block_size = dd_block_size;
         this->buffer = (uint8_t *)alloc_check( ALLOC_ZERO, dd_block_cnt*config->bf_size, "sdbf_hash_dd", "this->buffer", ERROR_EXIT);
-        this->elem_counts = (uint16_t *)alloc_check( ALLOC_ZERO, sizeof( uint16_t)*dd_block_cnt, "sdbf_hash_dd", "this->elem_counts", ERROR_EXIT);
+        this->elem_counts = (uint16_t *)alloc_check( ALLOC_ZERO, sizeof( uint16_t)*dd_block_cnt, "sdbf_hash_dd", "this->elem_counts", ERROR_EXIT);		
         gen_block_sdbf_mt( (uint8_t*)str, length, dd_block_size, config->thread_cnt);
     }
     compute_hamming();

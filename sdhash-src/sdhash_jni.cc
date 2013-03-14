@@ -8,8 +8,8 @@ JNIEXPORT jstring JNICALL Java_com_pcbje_sdhashjni_SDHash_1JNI_getSDBF
 	const char * fn =  env->GetStringUTFChars(filename, 0);
 	
 	char * data = (char*)env->GetByteArrayElements(content, false);  
-
-	class sdbf * sdbfm = new sdbf(fn, data, 0, len);
+	
+	class sdbf * sdbfm = new sdbf(fn, data, 4*KB, len);
 	
 	return env->NewStringUTF(sdbfm->to_string().c_str());	
 }

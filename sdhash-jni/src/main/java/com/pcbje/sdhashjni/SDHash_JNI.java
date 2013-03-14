@@ -20,11 +20,16 @@ public class SDHash_JNI {
 
     static {
         try {
-            if (os.indexOf("linux") < 0) {
-                throw new Error("OS " + os + " is not supported");
+            String libsdhash;
+            
+            if (os.indexOf("linux") >= 0) {        
+                libsdhash = "libsdhash_jni-linux-x64.so";
             }
-
-            String libsdhash = "libsdhash_jni.so";            
+            else {
+                libsdhash = "libsdhash_jni.so";
+            }
+            
+            Logger.getLogger(SDHash_JNI.class.getName()).log(Level.INFO, "Loading {0}...", libsdhash);       
 
             loadLib(libsdhash);
             

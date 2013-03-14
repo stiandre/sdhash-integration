@@ -17,21 +17,17 @@ CFLAGS = -fPIC -O3 -fno-strict-aliasing -D_FILE_OFFSET_BITS=64 -D_LARGE_FILE_API
 SDHASH_OBJ = $(SDHASH_SRC:.cc=.o)
 SDBF_OBJ = $(SDBF_SRC:.cc=.o)
 
-unamestr=`uname`
-
-if [[ "$unamestr" == 'Linux' ]]; then
+ifeq ($(shell uname),Linux)
 	LDFLAGS = -L . -L./external/stage/lib -lboost_regex -lboost_system -lboost_filesystem -lboost_program_options -lc -lm -lcrypto -lboost_thread -lpthread -shared -Wl,-soname -o $(SHARED_LIB)
+endif
 
-elif [[ "$unamestr" ==  'Darwin' ]]; then
+ifeq ($(shell uname),Darwin)
 	LDFLAGS = -L . -L./external/stage/lib -lboost_regex -lboost_system -lboost_filesystem -lboost_program_options -lc -lm -lcrypto -lboost_thread -lpthread -shared -Wl,-install_name,$(SHARED_LIB) -o $(SHARED_LIB)
-else
-	echo "Unsupported platform $unamestr"
-	exit 1;
-fi
+endif
 
 LIBSDBF=libsdbf.a
 
-all: stream jni
+all: stream
 
 sdbf.i:
 

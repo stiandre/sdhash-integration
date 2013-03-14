@@ -2,6 +2,7 @@ package com.pcbje.sdhashjni;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,7 +20,7 @@ public class SDHash_JNI {
     private native String compare(String sdbfs, int threshold);
 
     static {
-        try {
+        try {            
             String libsdhash;
             
             if (os.indexOf("linux") >= 0) {        
@@ -31,9 +32,7 @@ public class SDHash_JNI {
             
             Logger.getLogger(SDHash_JNI.class.getName()).log(Level.INFO, "Loading {0}...", libsdhash);       
 
-            loadLib(libsdhash);
-            
-
+            loadLib(libsdhash);           
         } catch (IOException ex) {
             Logger.getLogger(SDHash_JNI.class.getName()).log(Level.SEVERE, null, ex);
             System.exit(1);
@@ -85,7 +84,11 @@ public class SDHash_JNI {
     }
 
     public static String digestBytes(String filename, byte[] content) {
-        return jni.getSDBF(filename, content, content.length);
+        if (content.length >= 512) {
+            return jni.getSDBF(filename, content, content.length);
+        }
+        
+        return null;
     }
 
     private static String digest(SDHash_JNI jni, String filename) throws Exception {

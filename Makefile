@@ -57,7 +57,7 @@ build_header:
 	javah -o sdhash-src/sdhash_jni.h -classpath sdhash-jni/target/classes com.pcbje.sdhashjni.SDHash_JNI
 
 standalone:
-	mv $(SHARED_LIB) ./sdhash-jni/src/main/resources/
+	mv build/$(SHARED_LIB) ./sdhash-jni/src/main/resources/
 	mvn -f sdhash-jni/pom.xml clean install	
 
 shared_only:

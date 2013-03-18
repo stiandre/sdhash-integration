@@ -21,14 +21,7 @@ public class SDHash_JNI {
 
     static {
         try {            
-            String libsdhash;
-            
-            if (os.indexOf("linux") >= 0) {        
-                libsdhash = "libsdhash_jni-linux-x64.so";
-            }
-            else {
-                libsdhash = "libsdhash_jni.so";
-            }
+            String libsdhash = "libsdhash_jni.so";
             
             Logger.getLogger(SDHash_JNI.class.getName()).log(Level.INFO, "Loading {0}...", libsdhash);       
 

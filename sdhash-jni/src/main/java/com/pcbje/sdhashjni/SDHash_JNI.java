@@ -20,12 +20,12 @@ public class SDHash_JNI {
     private native String compare(String sdbfs, int threshold);
 
     static {
-        try {            
+        try {
             String libsdhash = "libsdhash_jni.so";
-            
-            Logger.getLogger(SDHash_JNI.class.getName()).log(Level.INFO, "Loading {0}...", libsdhash);       
 
-            loadLib(libsdhash);           
+            loadLib(libsdhash);
+
+            Logger.getLogger(SDHash_JNI.class.getName()).log(Level.INFO, "Loaded {0}", libsdhash);
         } catch (IOException ex) {
             Logger.getLogger(SDHash_JNI.class.getName()).log(Level.SEVERE, null, ex);
             System.exit(1);
@@ -33,8 +33,6 @@ public class SDHash_JNI {
     }
 
     private static void loadLib(String libsdhash) throws IOException {
-        Logger.getLogger(SDHash_JNI.class.getName()).log(Level.INFO, "Loading {0}...", libsdhash);
-
         InputStream in = SDHash_JNI.class.getClassLoader().getResourceAsStream(libsdhash);
 
         File temp = File.createTempFile(libsdhash, "");
@@ -79,10 +77,12 @@ public class SDHash_JNI {
     public static String digestBytes(String filename, byte[] content) {
         if (content.length >= 512) {
             ByteBuffer buffer = ByteBuffer.allocateDirect(content.length);
-            
-            return jni.getSDBF(filename, buffer.put(content), content.length);
+
+            buffer.put(content);
+
+            return jni.getSDBF(filename, buffer, content.length);
         }
-        
+
         return null;
     }
 
@@ -97,6 +97,10 @@ public class SDHash_JNI {
 
         reader.close();
 
-        return jni.getSDBF(f.getName(), ByteBuffer.wrap(in), (int) f.length());
+        ByteBuffer buffer = ByteBuffer.allocateDirect(in.length);
+
+        buffer.put(in);
+
+        return jni.getSDBF(f.getName(), buffer, (int) f.length());
     }
 }

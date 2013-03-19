@@ -10,10 +10,10 @@ extern "C" {
 /*
  * Class:     com_pcbje_sdhashjni_SDHash_JNI
  * Method:    getSDBF
- * Signature: (Ljava/lang/String;[BI)Ljava/lang/String;
+ * Signature: (Ljava/lang/String;Ljava/nio/ByteBuffer;I)Ljava/lang/String;
  */
 JNIEXPORT jstring JNICALL Java_com_pcbje_sdhashjni_SDHash_1JNI_getSDBF
-  (JNIEnv *, jobject, jstring, jbyteArray, jint);
+  (JNIEnv *, jobject, jstring, jbyte*, jint);
 
 /*
  * Class:     com_pcbje_sdhashjni_SDHash_JNI

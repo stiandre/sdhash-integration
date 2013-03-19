@@ -4,10 +4,10 @@
 #include "../sdbf/sdbf_set.h"
 
 JNIEXPORT jstring JNICALL Java_com_pcbje_sdhashjni_SDHash_1JNI_getSDBF
-(JNIEnv * env, jobject, jstring filename, jbyteArray content, jint len) {		
+(JNIEnv * env, jobject, jstring filename, jobject content, jint len) {		
 	const char * fn =  env->GetStringUTFChars(filename, 0);
 	
-	char * data = (char*)env->GetByteArrayElements(content, false);  
+	char * data = (char*)env->GetDirectBufferAddress(content);  
 	
 	class sdbf * sdbfm = new sdbf(fn, data, 4*KB, len);
 	

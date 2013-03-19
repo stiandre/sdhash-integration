@@ -2,11 +2,11 @@ package com.pcbje.sdhashjni;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.ByteBuffer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,7 +15,7 @@ public class SDHash_JNI {
     private static final String os = System.getProperty("os.name").toLowerCase();
     private static final SDHash_JNI jni = new SDHash_JNI();
 
-    private native String getSDBF(String filename, byte[] content, int length);
+    private native String getSDBF(String filename, ByteBuffer content, int length);
 
     private native String compare(String sdbfs, int threshold);
 
@@ -78,7 +78,9 @@ public class SDHash_JNI {
 
     public static String digestBytes(String filename, byte[] content) {
         if (content.length >= 512) {
-            return jni.getSDBF(filename, content, content.length);
+            ByteBuffer buffer = ByteBuffer.allocateDirect(content.length);
+            
+            return jni.getSDBF(filename, buffer.put(content), content.length);
         }
         
         return null;
@@ -95,6 +97,6 @@ public class SDHash_JNI {
 
         reader.close();
 
-        return jni.getSDBF(f.getName(), in, (int) f.length());
+        return jni.getSDBF(f.getName(), ByteBuffer.wrap(in), (int) f.length());
     }
 }

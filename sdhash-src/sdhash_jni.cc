@@ -9,7 +9,7 @@ JNIEXPORT jstring JNICALL Java_com_pcbje_sdhashjni_SDHash_1JNI_getSDBF
 	
 	char * data = (char*)env->GetDirectBufferAddress(content);  
 	
-	class sdbf * sdbfm = new sdbf(fn, data, 4*KB, len);
+	class sdbf * sdbfm = new sdbf(fn, data, 16*KB, len);
 	
 	return env->NewStringUTF(sdbfm->to_string().c_str());	
 }

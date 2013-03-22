@@ -17,11 +17,18 @@ public class SDHash_JNI {
 
     private native String getSDBF(String filename, ByteBuffer content, int length);
 
-    private native String compare(String sdbfs, int threshold);
+    private native String compare(ByteBuffer sdbfs, int threshold);
 
     static {
         try {
-            String libsdhash = "libsdhash_jni.so";
+            String libsdhash;
+            
+            if (os.contains("linux")) {
+                libsdhash = "libsdhash_jni-linux-x64.so";
+            }
+            else {
+                libsdhash = "libsdhash_jni.so";
+            }
 
             loadLib(libsdhash);
 
@@ -67,11 +74,17 @@ public class SDHash_JNI {
 
         fos.close();
 
-        System.out.println(jni.compare(digests.toString(), 16));
+        System.out.println(compare(digests.toString()));
     }
 
     public static String compare(String sdbf) {
-        return jni.compare(sdbf, 16);
+        byte[] content = sdbf.getBytes();
+        
+        ByteBuffer buffer = ByteBuffer.allocateDirect(content.length);
+
+        buffer.put(content);
+            
+        return jni.compare(buffer, 16);
     }
 
     public static String digestBytes(String filename, byte[] content) {

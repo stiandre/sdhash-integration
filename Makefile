@@ -3,8 +3,6 @@ PREFIX=$(DESTDIR)/usr/local
 INSTDIR=$(PREFIX)/bin
 MANDIR=$(PREFIX)/share/man/man1
 
-SHARED_LIB=libsdhash_jni.so
-
 SDBF_SRC = sdbf/sdbf_class.cc sdbf/sdbf_core.cc sdbf/map_file.cc sdbf/entr64.cc sdbf/base64.cc sdbf/bf_utils.cc sdbf/error.cc sdbf/sdbf_conf.cc sdbf/sdbf_set.cc base64/modp_b64.cc
 
 SDHASH_SRC = sdhash-src/sdhash.cc sdhash-src/sdhash_threads.cc sdhash-src/sdhash_jni.cc
@@ -18,10 +16,12 @@ SDHASH_OBJ = $(SDHASH_SRC:.cc=.o)
 SDBF_OBJ = $(SDBF_SRC:.cc=.o)
 
 ifeq ($(shell uname),Linux)
+	SHARED_LIB=libsdhash_jni-linux-x64.so
 	LDFLAGS = -L . -L./external/stage/lib -lboost_regex -lboost_system -lboost_filesystem -lboost_program_options -lc -lm -lcrypto -lboost_thread -lpthread -shared -Wl,-soname -o $(SHARED_LIB)
 endif
 
 ifeq ($(shell uname),Darwin)
+	SHARED_LIB=libsdhash_jni.so
 	LDFLAGS = -L . -L./external/stage/lib -lboost_regex -lboost_system -lboost_filesystem -lboost_program_options -lc -lm -lcrypto -lboost_thread -lpthread -shared -Wl,-install_name,$(SHARED_LIB) -o $(SHARED_LIB)
 endif
 

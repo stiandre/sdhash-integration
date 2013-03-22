@@ -15,8 +15,8 @@ JNIEXPORT jstring JNICALL Java_com_pcbje_sdhashjni_SDHash_1JNI_getSDBF
 }
 
 JNIEXPORT jstring JNICALL Java_com_pcbje_sdhashjni_SDHash_1JNI_compare
-(JNIEnv * env, jobject, jstring content, jint threshold) {	
-	const char * data = env->GetStringUTFChars(content, 0);
+(JNIEnv * env, jobject, jobject content, jint threshold) {	
+	char * data = (char*)env->GetDirectBufferAddress(content);  
 
 	FILE * in = tmpfile ();
 

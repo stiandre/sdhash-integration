@@ -12,11 +12,17 @@ import java.util.logging.Logger;
 
 public class SDHash_JNI {
 
-    private static final String[] boostlib = new String[]{
+    private static final String[] linux_x64_boostlib = new String[]{
         "libboost_thread.so.1.49.0",
-        "libboost_system.so.1.49.0",        
+        "libboost_system.so.1.49.0",
         "libboost_program_options.so.1.49.0",
-        "libboost_filesystem.so.1.49.0",        
+        "libboost_filesystem.so.1.49.0"
+    };
+    private static final String[] osx_boostlib = new String[]{
+        "libboost_thread.dylib",
+        "libboost_system.dylib",
+        "libboost_program_options.dylib",
+        "libboost_filesystem.dylib"
     };
     private static final String os = System.getProperty("os.name").toLowerCase();
     private static final SDHash_JNI jni = new SDHash_JNI();
@@ -26,22 +32,26 @@ public class SDHash_JNI {
     private native String compare(ByteBuffer sdbfs, int threshold);
 
     static {
-        try {            
+        try {
             String libsdhash;
             String boostdir;
+
+            String[] boostlib;
 
             if (os.contains("linux")) {
                 libsdhash = "libsdhash_jni-linux-x64.so";
                 boostdir = "boost/linux-x64";
+                boostlib = linux_x64_boostlib;
             } else {
                 libsdhash = "libsdhash_jni.so";
                 boostdir = "boost/osx";
+                boostlib = osx_boostlib;
             }
-            
+
             for (String lib : boostlib) {
                 loadLib(boostdir, lib);
             }
-            
+
             loadLib(null, libsdhash);
         } catch (IOException ex) {
             Logger.getLogger(SDHash_JNI.class.getName()).log(Level.SEVERE, null, ex);
@@ -51,21 +61,21 @@ public class SDHash_JNI {
 
     private static void loadLib(String root, String libname) throws IOException {
         String path = "";
-        
+
         if (root != null) {
             path += root + "/";
         }
-        
+
         path += libname;
-                        
+
         Logger.getLogger(SDHash_JNI.class.getName()).log(Level.INFO, "Loading {0}", path);
-        
+
         InputStream in = SDHash_JNI.class.getClassLoader().getResourceAsStream(path);
-        
+
         File temp = File.createTempFile(libname, "");
-        
+
         temp.deleteOnExit();
-        
+
         OutputStream out = new FileOutputStream(temp);
         byte[] buffer = new byte[1024];
         int len;
@@ -80,9 +90,25 @@ public class SDHash_JNI {
 
     public static void main(String[] args) throws Exception {
         StringBuilder digests = new StringBuilder();
-
-        for (int i = 0; i < args.length; i++) {
-            digests.append(digest(jni, args[i]));
+        
+        if (args.length == 1 && new File(args[0]).isDirectory()) {
+            for (File c : new File(args[0]).listFiles()) {                
+                try {
+                    if (!c.isDirectory() && c.length() >= 512) {                     
+                        digests.append(digest(jni, c.getAbsolutePath()));
+                    }
+                }
+                catch (Exception e) {}
+            }
+        }
+        else if (args.length == 1) {
+            System.out.println(digest(jni, args[0]));
+            System.exit(0);
+        }
+        else {
+            for (int i = 0; i < args.length; i++) {
+                digests.append(digest(jni, args[i]));
+            }
         }
 
         File tmpfile = File.createTempFile("sdhash-compare", "txt");
@@ -132,7 +158,7 @@ public class SDHash_JNI {
         ByteBuffer buffer = ByteBuffer.allocateDirect(in.length);
 
         buffer.put(in);
-
+        
         return jni.getSDBF(f.getName(), buffer, (int) f.length());
     }
 }

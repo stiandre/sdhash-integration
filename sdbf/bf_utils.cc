@@ -29,9 +29,9 @@ uint32_t bf_match_est( uint32_t m, uint32_t k, uint32_t s1, uint32_t s2, uint32_
  */
 uint32_t bf_sha1_insert( uint8_t *bf, uint8_t bf_class, uint32_t *sha1_hash) {
     uint32_t i, k, insert_cnt = 0, bit_mask = sdbf::config->BF_CLASS_MASKS[bf_class];
-    for( i=0; i<5; i++) {
+    for( i=0; i<5; i++) {        
         sha1_hash[i] &= bit_mask;
-        k = sha1_hash[i] >> 3;
+        k = sha1_hash[i] >> 3;        
         if( !(bf[k] & sdbf::config->BITS[sha1_hash[i] & 0x7]))
             insert_cnt++;
         bf[k] |= sdbf::config->BITS[sha1_hash[i] & 0x7];

@@ -129,7 +129,7 @@ public class SDHash_JNI {
 
         buffer.put(content);
 
-        return jni.compare(buffer, 16);
+        return jni.compare(buffer, 1);
     }
 
     public static String digestBytes(String filename, byte[] content) {

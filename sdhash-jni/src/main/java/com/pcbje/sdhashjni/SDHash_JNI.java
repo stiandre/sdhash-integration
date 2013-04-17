@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintStream;
 import java.nio.ByteBuffer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -89,37 +90,7 @@ public class SDHash_JNI {
     }
 
     public static void main(String[] args) throws Exception {
-        StringBuilder digests = new StringBuilder();
-        
-        if (args.length == 1 && new File(args[0]).isDirectory()) {
-            for (File c : new File(args[0]).listFiles()) {                
-                try {
-                    if (!c.isDirectory() && c.length() >= 512) {                     
-                        digests.append(digest(jni, c.getAbsolutePath()));
-                    }
-                }
-                catch (Exception e) {}
-            }
-        }
-        else if (args.length == 1) {
-            System.out.println(digest(jni, args[0]));
-            System.exit(0);
-        }
-        else {
-            for (int i = 0; i < args.length; i++) {
-                digests.append(digest(jni, args[i]));
-            }
-        }
-
-        File tmpfile = File.createTempFile("sdhash-compare", "txt");
-
-        FileOutputStream fos = new FileOutputStream(tmpfile);
-
-        fos.write(digests.toString().getBytes());
-
-        fos.close();
-
-        System.out.println(compare(digests.toString()));
+        run(args, System.out);
     }
 
     public static String compare(String sdbf) {
@@ -133,7 +104,7 @@ public class SDHash_JNI {
     }
 
     public static String digestBytes(String filename, byte[] content) {
-        if (content.length >= 512) {
+        if (content.length >= 512 && content.length <= 1024*1024*100) {
             ByteBuffer buffer = ByteBuffer.allocateDirect(content.length);
 
             buffer.put(content);
@@ -144,7 +115,7 @@ public class SDHash_JNI {
         return null;
     }
 
-    private static String digest(SDHash_JNI jni, String filename) throws Exception {
+    public static String digestFile(String filename) throws Exception {
         File f = new File(filename);
 
         InputStream reader = new FileInputStream(f);
@@ -160,5 +131,40 @@ public class SDHash_JNI {
         buffer.put(in);
         
         return jni.getSDBF(f.getName(), buffer, (int) f.length());
+    }
+    
+    static void run(String[] args, PrintStream out) throws Exception {
+        StringBuilder digests = new StringBuilder();
+        
+        if (new File(args[0]).isDirectory()) {
+            int counter = 0;
+            
+            int limit = args.length == 2 ? Integer.parseInt(args[1]) : 0;
+            
+            for (File c : new File(args[0]).listFiles()) {                
+                try {
+                    if (!c.isDirectory() && c.length() >= 512 && c.length() <= 1024*1024) {                     
+                        digests.append(digestFile(c.getAbsolutePath()));
+                        counter++;
+                    }
+                }
+                catch (Exception e) {}
+                
+                if (limit > 0 && counter == limit) {
+                    break;
+                }
+            }
+        }
+        else if (args.length == 1) {
+            out.println(digestFile(args[0]));
+            System.exit(0);
+        }
+        else {
+            for (int i = 0; i < args.length; i++) {
+                digests.append(digestFile(args[i]));
+            }
+        }
+
+        out.println(compare(digests.toString()));
     }
 }

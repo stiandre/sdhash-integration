@@ -14,8 +14,8 @@ $ make standalone</code></pre>
 
 Then run:
 
-<pre><code># Individual files: 
+<pre><code># Compare individual files: 
 $ java -jar sdhash-jni/target/sdhash-jni.jar file1 file2 ... fileN
 
-# Single folder:
+# Comapre all files in folder:
 $ java -jar sdhash-jni/target/sdhash-jni.jar folder/</code></pre>

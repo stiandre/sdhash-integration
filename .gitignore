@@ -25,3 +25,5 @@ external/tools/build/v2/engine/bootstrap/jam0
 external/tools/build/v2/engine/bin.macosxx86_64/b2
 
 external/tools/build/v2/engine/bin.macosxx86_64/bjam
+
+sdhash-jni/nb-configuration.xml

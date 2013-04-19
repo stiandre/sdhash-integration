@@ -26,6 +26,7 @@ public class SDHash_JNI {
         "libboost_filesystem.dylib"
     };
     private static final String os = System.getProperty("os.name").toLowerCase();
+    private static final String version = System.getProperty("os.version").toLowerCase();
     private static final SDHash_JNI jni = new SDHash_JNI();
 
     private native String getSDBF(String filename, ByteBuffer content, int length);
@@ -43,10 +44,17 @@ public class SDHash_JNI {
                 libsdhash = "libsdhash_jni-linux-x64.so";
                 boostdir = "boost/linux-x64";
                 boostlib = linux_x64_boostlib;
-            } else {
+            } else if (os.equals("mac os x")) {
                 libsdhash = "libsdhash_jni.so";
-                boostdir = "boost/osx";
                 boostlib = osx_boostlib;
+
+                if (version.startsWith("10.8")) {
+                    boostdir = "/usr/lib";
+                } else {                    
+                    boostdir = "boost/osx";
+                }
+            } else {
+                throw new RuntimeException("Unkown OS:" + os + " " + version);
             }
 
             for (String lib : boostlib) {
@@ -71,10 +79,16 @@ public class SDHash_JNI {
 
         Logger.getLogger(SDHash_JNI.class.getName()).log(Level.INFO, "Loading {0}", path);
 
-        InputStream in = SDHash_JNI.class.getClassLoader().getResourceAsStream(path);
+        InputStream in;
+
+        if (path.startsWith("/")) {
+            in = new FileInputStream(path);
+        } else {
+            in = SDHash_JNI.class.getClassLoader().getResourceAsStream(path);
+        }
 
         File temp = File.createTempFile(libname, "");
-        
+
         temp.deleteOnExit();
 
         OutputStream out = new FileOutputStream(temp);
@@ -104,7 +118,7 @@ public class SDHash_JNI {
     }
 
     public static String digestBytes(String filename, byte[] content) {
-        if (content.length >= 512 && content.length <= 1024*1024*100) {
+        if (content.length >= 512 && content.length <= 1024 * 1024 * 100) {
             ByteBuffer buffer = ByteBuffer.allocateDirect(content.length);
 
             buffer.put(content);
@@ -129,37 +143,35 @@ public class SDHash_JNI {
         ByteBuffer buffer = ByteBuffer.allocateDirect(in.length);
 
         buffer.put(in);
-        
+
         return jni.getSDBF(f.getName(), buffer, (int) f.length());
     }
-    
+
     static void run(String[] args, PrintStream out) throws Exception {
         StringBuilder digests = new StringBuilder();
-        
+
         if (new File(args[0]).isDirectory()) {
             int counter = 0;
-            
+
             int limit = args.length == 2 ? Integer.parseInt(args[1]) : 0;
-            
-            for (File c : new File(args[0]).listFiles()) {                
+
+            for (File c : new File(args[0]).listFiles()) {
                 try {
-                    if (!c.isDirectory() && c.length() >= 512 && c.length() <= 1024*1024) {                     
+                    if (!c.isDirectory() && c.length() >= 512 && c.length() <= 1024 * 1024) {
                         digests.append(digestFile(c.getAbsolutePath()));
                         counter++;
                     }
+                } catch (Exception e) {
                 }
-                catch (Exception e) {}
-                
+
                 if (limit > 0 && counter == limit) {
                     break;
                 }
             }
-        }
-        else if (args.length == 1) {
+        } else if (args.length == 1) {
             out.println(digestFile(args[0]));
             System.exit(0);
-        }
-        else {
+        } else {
             for (int i = 0; i < args.length; i++) {
                 digests.append(digestFile(args[i]));
             }

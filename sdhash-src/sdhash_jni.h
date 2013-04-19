@@ -15,8 +15,6 @@ extern "C" {
 JNIEXPORT jstring JNICALL Java_com_pcbje_sdhashjni_SDHash_1JNI_getSDBF
   (JNIEnv *, jobject, jstring, jobject, jint);
 
-
-
 /*
  * Class:     com_pcbje_sdhashjni_SDHash_JNI
  * Method:    compare

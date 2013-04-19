@@ -13,6 +13,7 @@ $ make standalone</code></pre>
 ### Compile standalone on osx (very unstable on 10.8):
 <pre><code>$ git clone https://github.com/pcbje/sdhash-jni.git
 $ cd sdhash-jni
+# osx >= 10.8: copy src/main/resources/boost/osx/* to /usr/lib and hope for the best.
 $ make boost
 $ make
 $ make standalone</code></pre>

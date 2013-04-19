@@ -10,12 +10,11 @@ SDHASH_SRC = sdhash-src/sdhash.cc sdhash-src/sdhash_threads.cc sdhash-src/sdhash
 CC = g++
 LD = $(CC)
 
-CFLAGS = -fPIC -O3 -fno-strict-aliasing -D_FILE_OFFSET_BITS=64 -D_LARGE_FILE_API -D_BSD_SOURCE -I./external -I $(JAVA_JNI_DIR) -I $(JAVA_JNI_DIR_EXTRA)
-
 SDHASH_OBJ = $(SDHASH_SRC:.cc=.o)
 SDBF_OBJ = $(SDBF_SRC:.cc=.o)
 
 ifeq ($(shell uname),Linux)
+	CFLAGS = -fPIC -O3 -fno-strict-aliasing -D_FILE_OFFSET_BITS=64 -D_LARGE_FILE_API -D_BSD_SOURCE -I./external -I $(JAVA_JNI_DIR) -I $(JAVA_JNI_DIR)/linux
 	SHARED_LIB=libsdhash_jni-linux-x64.so
 	LDFLAGS = -L . -L./external/stage/lib -lboost_regex -lboost_system -lboost_filesystem -lboost_program_options -lc -lm -lcrypto -lboost_thread -lpthread -shared -Wl,-soname -o $(SHARED_LIB)
 endif

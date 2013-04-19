@@ -46,13 +46,8 @@ public class SDHash_JNI {
                 boostlib = linux_x64_boostlib;
             } else if (os.equals("mac os x")) {
                 libsdhash = "libsdhash_jni.so";
-                boostlib = osx_boostlib;
-
-                if (version.startsWith("10.8")) {
-                    boostdir = "/usr/lib";
-                } else {                    
-                    boostdir = "boost/osx";
-                }
+                boostlib = osx_boostlib; 
+                boostdir = "boost/osx";
             } else {
                 throw new RuntimeException("Unkown OS:" + os + " " + version);
             }

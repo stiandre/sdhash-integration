@@ -10,7 +10,7 @@ $ sudo update-alternatives --config javac
 $ make JAVA_JNI_DIR=/usr/lib/jvm/java-1.6.0-openjdk/include
 $ make standalone</code></pre>
 
-### Compile standalone on osx:
+### Compile standalone on osx (very unstable):
 <pre><code>$ git clone https://github.com/pcbje/sdhash-jni.git
 $ cd sdhash-jni
 $ make boost

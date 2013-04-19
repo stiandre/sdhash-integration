@@ -9,6 +9,7 @@ This is a modified version of sdhash 2.3 (http://roussev.net/sdhash/sdhash.html)
 $ sudo update-alternatives --config javac
 $ git clone https://github.com/pcbje/sdhash-jni.git
 $ cd sdhash-jni
+$ make boost
 
 # On OSX:
 $ make

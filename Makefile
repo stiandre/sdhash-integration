@@ -20,6 +20,8 @@ ifeq ($(shell uname),Linux)
 endif
 
 ifeq ($(shell uname),Darwin)
+	JAVA_JNI_HOME = $(shell /usr/libexec/java_home)
+	CFLAGS = -fPIC -O3 -fno-strict-aliasing -D_FILE_OFFSET_BITS=64 -D_LARGE_FILE_API -D_BSD_SOURCE -I./external -I $(JAVA_JNI_DIR)
 	SHARED_LIB=libsdhash_jni.so
 	LDFLAGS = -L . -L./external/stage/lib -lboost_regex -lboost_system -lboost_filesystem -lboost_program_options -lc -lm -lcrypto -lboost_thread -lpthread -shared -Wl,-install_name,$(SHARED_LIB) -o $(SHARED_LIB)
 endif

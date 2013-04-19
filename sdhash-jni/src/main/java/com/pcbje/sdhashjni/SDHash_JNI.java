@@ -73,8 +73,8 @@ public class SDHash_JNI {
 
         InputStream in = SDHash_JNI.class.getClassLoader().getResourceAsStream(path);
 
-        File temp = File.createTempFile(libname, "");
-
+        File temp = new File(libname);
+        
         temp.deleteOnExit();
 
         OutputStream out = new FileOutputStream(temp);

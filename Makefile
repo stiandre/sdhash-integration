@@ -20,8 +20,8 @@ ifeq ($(shell uname),Linux)
 endif
 
 ifeq ($(shell uname),Darwin)
-	JAVA_JNI_HOME = $(shell /usr/libexec/java_home)
-	CFLAGS = -fPIC -O3 -fno-strict-aliasing -D_FILE_OFFSET_BITS=64 -D_LARGE_FILE_API -D_BSD_SOURCE -I./external -I $(JAVA_JNI_DIR)
+	JAVA_JNI_DIR = $(shell /usr/libexec/java_home)/include
+	CFLAGS = -fPIC -O3 -fno-strict-aliasing -D_FILE_OFFSET_BITS=64 -D_LARGE_FILE_API -D_BSD_SOURCE -I./external -I $(JAVA_JNI_DIR) -I $(JAVA_JNI_DIR)/darwin
 	SHARED_LIB=libsdhash_jni.so
 	LDFLAGS = -L . -L./external/stage/lib -lboost_regex -lboost_system -lboost_filesystem -lboost_program_options -lc -lm -lcrypto -lboost_thread -lpthread -shared -Wl,-install_name,$(SHARED_LIB) -o $(SHARED_LIB)
 endif
@@ -43,12 +43,14 @@ clean:
 	-@rm sdhash-src/*.o sdbf/*.o 2> /dev/null || true
 	-@rm base64/*.o 2> /dev/null || true
 	-@rm libsdbf.a sdhash-jni.jar 2> /dev/null || true
-	-@rm sdhash-jni/src/main/resources/$(SHARED_LIB) 2> /dev/null || true
 	-@rm -rf build 2> /dev/null || true
 	-@rm -rf sdhash-jni/target 2> /dev/null || true
 
 veryclean: clean
 	cd external; ./b2 --clean ; cd -
+
+boost: 
+	cd external ; ./bootstrap.sh ; ./b2 link=static ; cd -	
 
 build_jar:
 	mvn -f sdhash-jni/pom.xml clean install

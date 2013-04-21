@@ -165,7 +165,7 @@ public class SDHash_JNI {
             }
         } else if (args.length == 1) {
             out.println(digestFile(args[0]));
-            System.exit(0);
+            return;
         } else {
             for (int i = 0; i < args.length; i++) {
                 digests.append(digestFile(args[i]));

@@ -27,7 +27,7 @@ public class TestSDHash_JNI {
         reader.read(content);
 
         String signature = SDHash_JNI.digestBytes(FILENAME, content);
-
+        
         assertEquals(LOREM_IPSUM_SIGNATURE, signature);
     }
 
@@ -62,7 +62,7 @@ public class TestSDHash_JNI {
 
         SDHash_JNI.run(input, stream);
 
-        assertEquals(LOREM_IPSUM_SIGNATURE, baos.toString().trim());
+        assertEquals(LOREM_IPSUM_SIGNATURE.trim(), baos.toString().trim());
     }
 
     @Test

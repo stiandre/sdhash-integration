@@ -16,21 +16,32 @@ JNIEXPORT jstring JNICALL Java_com_pcbje_sdhashjni_SDHash_1JNI_getSDBF
 
 JNIEXPORT jstring JNICALL Java_com_pcbje_sdhashjni_SDHash_1JNI_compare
 (JNIEnv * env, jobject, jobject content, jint threshold) {	
-	char * data = (char*)env->GetDirectBufferAddress(content);  
+	try {
+		char * data = (char*)env->GetDirectBufferAddress(content);  
 
-	FILE * in = tmpfile ();
+		int length = env->GetDirectBufferCapacity(content) + 1;
 
-	fputs (data,in);
+		data[length - 1] = '\0';
 
-	rewind(in);
-	
-	sdbf_set * set1 = new sdbf_set(in);	
-	
-	fclose(in);
-	
-	std::string resultlist = set1->compare_all(threshold);
-	
-	return env->NewStringUTF(resultlist.c_str());
+		FILE * in = tmpfile ();
+
+		fputs (data,in);
+
+		rewind(in);
+		
+		sdbf_set * set1 = new sdbf_set(in);	
+		
+		fclose(in);
+		
+		std::string resultlist = set1->compare_all(threshold);
+		
+		return env->NewStringUTF(resultlist.c_str());
+	}
+	catch (int e) {
+		cout << "An exception occurred. Exception Nr. " << e << "\n";
+
+		return  env->NewStringUTF("");
+	}
 }
 
 

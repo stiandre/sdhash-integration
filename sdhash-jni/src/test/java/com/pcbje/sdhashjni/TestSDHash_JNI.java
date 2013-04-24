@@ -89,6 +89,6 @@ public class TestSDHash_JNI {
 
         SDHash_JNI.run(input, stream);
 
-        assertEquals(FILENAME + "|" + FILENAME_COMPARE + "|087", baos.toString().trim());
+        assertEquals(FILENAME_COMPARE + "|" + FILENAME + "|087", baos.toString().trim());
     }
 }

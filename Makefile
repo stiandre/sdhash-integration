@@ -13,9 +13,17 @@ LD = $(CC)
 SDHASH_OBJ = $(SDHASH_SRC:.cc=.o)
 SDBF_OBJ = $(SDBF_SRC:.cc=.o)
 
-ifeq ($(shell uname),Linux)
+ifeq ($(shell uname),Linux)	
 	CFLAGS = -fPIC -O3 -fno-strict-aliasing -D_FILE_OFFSET_BITS=64 -D_LARGE_FILE_API -D_BSD_SOURCE -I./external -I $(JAVA_JNI_DIR) -I $(JAVA_JNI_DIR)/linux
-	SHARED_LIB=libsdhash_jni-linux-x64.so
+
+	ARCH=$(shell uname)
+
+	ifneq (,$(findstring "64",$ARCH))
+        	SHARED_LIB=libsdhash_jni-linux-x64.so
+	else
+        	SHARED_LIB=libsdhash_jni-linux-x86.so
+	endif
+
 	LDFLAGS = -L . -L./external/stage/lib -lboost_regex -lboost_system -lboost_filesystem -lboost_program_options -lc -lm -lcrypto -lboost_thread -lpthread -shared -Wl,-soname -o $(SHARED_LIB)
 endif
 
@@ -50,7 +58,7 @@ veryclean: clean
 	cd external; ./b2 --clean ; cd -
 
 boost: 
-	cd external ; ./bootstrap.sh ; ./b2 link=static ; cd -	
+	cd external ; ./bootstrap.sh ; ./b2  ; cd -	
 
 build_jar:
 	mvn -f sdhash-jni/pom.xml clean install

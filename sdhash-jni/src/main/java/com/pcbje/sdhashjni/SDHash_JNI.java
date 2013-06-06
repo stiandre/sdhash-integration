@@ -19,6 +19,12 @@ public class SDHash_JNI {
         "libboost_program_options.so.1.49.0",
         "libboost_filesystem.so.1.49.0"
     };
+    private static final String[] linux_x86_boostlib = new String[]{
+        "libboost_thread.so.1.49.0",
+        "libboost_system.so.1.49.0",
+        "libboost_program_options.so.1.49.0",
+        "libboost_filesystem.so.1.49.0"
+    };
     private static final String[] osx_boostlib = new String[]{
         "libboost_thread.dylib",
         "libboost_system.dylib",
@@ -27,6 +33,8 @@ public class SDHash_JNI {
     };
     private static final String os = System.getProperty("os.name").toLowerCase();
     private static final String version = System.getProperty("os.version").toLowerCase();
+    private static final String arch = System.getProperty("os.arch").toLowerCase();
+    
     private static final SDHash_JNI jni = new SDHash_JNI();
 
     private native String getSDBF(String filename, ByteBuffer content, int length);
@@ -41,9 +49,16 @@ public class SDHash_JNI {
             String[] boostlib;
 
             if (os.contains("linux")) {
-                libsdhash = "libsdhash_jni-linux-x64.so";
-                boostdir = "boost/linux-x64";
-                boostlib = linux_x64_boostlib;
+                if (arch.contains("64")) {
+                    libsdhash = "libsdhash_jni-linux-x64.so";
+                    boostdir = "boost/linux-x64";
+                    boostlib = linux_x64_boostlib;
+                }
+                else {
+                    libsdhash = "libsdhash_jni-linux-x86.so";
+                    boostdir = "boost/linux-x86";
+                    boostlib = linux_x86_boostlib;
+                }
             } else if (os.equals("mac os x")) {
                 libsdhash = "libsdhash_jni.so";
                 boostlib = osx_boostlib; 

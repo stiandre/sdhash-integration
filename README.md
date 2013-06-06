@@ -3,6 +3,24 @@ sdhash-jni (pre-alpha)
 
 This is a modified version of sdhash 2.3 (http://roussev.net/sdhash/sdhash.html) with support for JNI.
 
+### Maven:
+Repository:
+<pre><code>&lt;repositories>
+  &lt;repository>
+    &lt;id>pcbje.com&lt;/id>
+    &lt;url>http://maven2.pcbje.com&lt;/url>
+  &lt;/repository>
+&lt;/repositories>
+</code></pre>
+
+Dependency:
+<pre><code>&lt;dependency>
+  &lt;groupId>com.pcbje&lt;/groupId>
+  &lt;artifactId>sdhash-jni&lt;/artifactId>
+  &lt;version>1.0-SNAPSHOT&lt;/version>
+&lt;/dependency>
+</code></pre>
+
 ### Compile standalone on linux:
 
 <pre><code>$ sudo apt-get install git libssl-dev g++ maven2 openjdk-6-jdk make libboost-all-dev

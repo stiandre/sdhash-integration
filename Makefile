@@ -16,7 +16,7 @@ LIBSDBF=libsdbf.a
 ifeq ($(shell uname),Linux)	
 	CFLAGS = -fPIC -O3 -fno-strict-aliasing -D_FILE_OFFSET_BITS=64 -D_LARGE_FILE_API -D_BSD_SOURCE -I./external -I $(JAVA_JNI_DIR) -I $(JAVA_JNI_DIR)/linux
 
-	EXTENSION=so
+	EXTENSION=so.1.49.0
 
 	ifneq (,$(findstring "64",$ARCH))
 		PLATFORM=linux-x64	

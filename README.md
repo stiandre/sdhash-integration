@@ -43,5 +43,5 @@ Then run:
 <pre><code># Compare individual files: 
 $ java -jar java/target/sdhash-jni.jar file1 file2 ... fileN
 
-# Comaare all files in folder with java:
+# Compare all files in folder with java:
 $ java -jar java/target/sdhash-jni.jar folder/</code></pre>

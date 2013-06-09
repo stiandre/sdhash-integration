@@ -8,7 +8,7 @@
 
 *.a
 
-sdhash-jni/target
+target
 
 sdhash-jni.jar
 

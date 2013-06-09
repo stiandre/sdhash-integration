@@ -16,6 +16,7 @@ public class TestSDHash_JNI {
     private static final String FILENAME = "loremipsum";
     private static final String FILENAME_COMPARE = "ipsumlorem";
 
+
     @Test
     public void testDigestBytes() throws Exception {
         File file = new File(getClass().getClassLoader().getResource("folder/" + FILENAME).getPath());
@@ -99,11 +100,12 @@ public class TestSDHash_JNI {
 
         sdbf1.append(SDHash_JNI.digestFile(getClass().getClassLoader().getResource("folder/" + FILENAME).getPath()));
         sdbf2.append(SDHash_JNI.digestFile(getClass().getClassLoader().getResource("folder/" + FILENAME_COMPARE).getPath()));
+        sdbf2.append(SDHash_JNI.digestFile(getClass().getClassLoader().getResource("folder/" + FILENAME).getPath()));
 
-        String result = SDHash_JNI.compareWith(sdbf1.toString(), sdbf2.toString());
+        String result = SDHash_JNI.compareWith(sdbf1.toString(), sdbf2.toString());       
 
         assertNotNull(result);
 
-        assertEquals(FILENAME + "|" + FILENAME_COMPARE + "|087\n", result);
+        assertEquals(FILENAME + "|" + FILENAME_COMPARE + "|087\n" + FILENAME + "|" + FILENAME + "|100\n", result);
     }
 }

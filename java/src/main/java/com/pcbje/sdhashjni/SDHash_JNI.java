@@ -13,18 +13,13 @@ import java.util.logging.Logger;
 
 public class SDHash_JNI {
 
-    private static final String[] linux_x64_boostlib = new String[]{
+    private static final String[] linux_boostlib = new String[]{
         "libboost_thread.so.1.49.0",
         "libboost_system.so.1.49.0",
         "libboost_program_options.so.1.49.0",
         "libboost_filesystem.so.1.49.0"
     };
-    private static final String[] linux_x86_boostlib = new String[]{
-        "libboost_thread.so.1.49.0",
-        "libboost_system.so.1.49.0",
-        "libboost_program_options.so.1.49.0",
-        "libboost_filesystem.so.1.49.0"
-    };
+
     private static final String[] osx_boostlib = new String[]{
         "libboost_thread.dylib",
         "libboost_system.dylib",
@@ -49,18 +44,18 @@ public class SDHash_JNI {
             String[] boostlib;
 
             if (os.contains("linux")) {
+                boostlib = linux_boostlib;
+                
                 if (arch.contains("64")) {
                     libsdhash = "libsdhash_jni-linux-x64.so";
                     boostdir = "boost/linux-x64";
-                    boostlib = linux_x64_boostlib;
                 }
                 else {
                     libsdhash = "libsdhash_jni-linux-x86.so";
-                    boostdir = "boost/linux-x86";
-                    boostlib = linux_x86_boostlib;
+                    boostdir = "boost/linux-x86";                    
                 }
             } else if (os.equals("mac os x")) {
-                libsdhash = "libsdhash_jni.so";
+                libsdhash = "libsdhash_jni-osx.dylib";
                 boostlib = osx_boostlib; 
                 boostdir = "boost/osx";
             } else {

@@ -31,7 +31,7 @@ endif
 
 ifeq ($(shell uname),Darwin)
 	JAVA_JNI_DIR = /Library/Java/JavaVirtualMachines/1.6.0_37-b06-434.jdk/Contents/Home/include
-	CFLAGS = -fPIC -O3 -fno-strict-aliasing -D_FILE_OFFSET_BITS=64 -D_LARGE_FILE_API -D_BSD_SOURCE -I./external -I $(JAVA_JNI_DIR) -I $(JAVA_JNI_DIR)/darwin
+	CFLAGS = -fPIC -O3 -fno-strict-aliasing -D_FILE_OFFSET_BITS=64 -D_LARGE_FILE_API -D_BSD_SOURCE -I./external -I./sdhash-src -I./java/src/main/cpp -I $(JAVA_JNI_DIR) -I $(JAVA_JNI_DIR)/darwin
 	SHARED_LIB=libsdhash_jni-osx.dylib
 	EXTENSION=dylib
 	PLATFORM=osx
@@ -65,6 +65,8 @@ jni:
 	cp -p external/stage/lib/libboost_thread.$(EXTENSION) java/src/main/resources/boost/$(PLATFORM)/
 
 	cp -p $(SHARED_LIB) ./java/src/main/resources/
+	
+	mvn -f java/pom.xml clean compile -DskipTests
 	javah -o java/src/main/cpp/sdhash_jni.h -classpath java/target/classes com.pcbje.sdhashjni.SDHash_JNI	
 	mvn -f java/pom.xml clean install	
 

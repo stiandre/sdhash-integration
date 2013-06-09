@@ -33,6 +33,7 @@ $ make jni</code></pre>
 ### Compiling on osx (very unstable on 10.8):
 <pre><code>$ git clone https://github.com/pcbje/sdhash-jni.git
 $ cd sdhash-jni
+# osx >= 10.8: If compilation fails, copy src/main/resources/boost/osx/* to /usr/lib and hope for the best. 
 $ make
 $ make jni</code></pre>
 

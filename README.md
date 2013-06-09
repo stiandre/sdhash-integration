@@ -1,7 +1,7 @@
 sdhash-integration
 ==========
 
-This is a modified version of sdhash 2.3 (http://roussev.net/sdhash/sdhash.html) with support for JNI.
+This is a modified version of sdhash 2.3 (http://roussev.net/sdhash/sdhash.html) to enable integration with Java applications.
 
 Target platforms: OSX, Linux x64, Linux x86
 

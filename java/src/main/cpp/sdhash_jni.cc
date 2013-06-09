@@ -48,5 +48,41 @@ JNIEXPORT jstring JNICALL Java_com_pcbje_sdhashjni_SDHash_1JNI_compare
 		return  env->NewStringUTF("");
 	}
 }
+JNIEXPORT jstring JNICALL Java_com_pcbje_sdhashjni_SDHash_1JNI_compareWith
+(JNIEnv * env, jobject, jobject content, jobject existing, jint threshold) {		
+	config->warnings = 1;
+
+	int length = env->GetDirectBufferCapacity(content) + 1;        
+	char * data = (char*)env->GetDirectBufferAddress(content);  
+	data[length - 1] = '\0';
+	FILE * in = tmpfile ();
+	fputs (data,in);
+	rewind(in);
+        
+        int length2 = env->GetDirectBufferCapacity(content) + 1;        
+	char * data2 = (char*)env->GetDirectBufferAddress(existing);  
+	data2[length2 - 1] = '\0';
+	FILE * in2 = tmpfile ();
+	fputs (data2,in2);
+	rewind(in2);
+	
+	try {
+		sdbf_set * set1 = new sdbf_set(in);	
+                sdbf_set * set2 = new sdbf_set(in2);
+		
+		fclose(in);
+                fclose(in2);
+		
+		std::string resultlist = set1->compare_to(set2, threshold, 0);
+		
+		return env->NewStringUTF(resultlist.c_str());
+	}
+	catch (int e) {
+		cout << "An exception occurred. Exception Nr. " << e << " with input:\n";
+		cout << data << "\n";
+
+		return  env->NewStringUTF("");
+	}
+}
 
 

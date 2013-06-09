@@ -23,6 +23,14 @@ JNIEXPORT jstring JNICALL Java_com_pcbje_sdhashjni_SDHash_1JNI_getSDBF
 JNIEXPORT jstring JNICALL Java_com_pcbje_sdhashjni_SDHash_1JNI_compare
   (JNIEnv *, jobject, jobject, jint);
 
+/*
+ * Class:     com_pcbje_sdhashjni_SDHash_JNI
+ * Method:    compareWith
+ * Signature: (Ljava/nio/ByteBuffer;Ljava/nio/ByteBuffer;I)Ljava/lang/String;
+ */
+JNIEXPORT jstring JNICALL Java_com_pcbje_sdhashjni_SDHash_1JNI_compareWith
+  (JNIEnv *, jobject, jobject, jobject, jint);
+
 #ifdef __cplusplus
 }
 #endif

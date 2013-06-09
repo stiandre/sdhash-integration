@@ -12,6 +12,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class SDHash_JNI {
+        
+    private native String getSDBF(String filename, ByteBuffer content, int length);
+
+    private native String compare(ByteBuffer sdbfs, int threshold);
+    
+    private native String compareWith(ByteBuffer sdbfs, ByteBuffer with, int threshold);
 
     private static final String[] linux_boostlib = new String[]{
         "libboost_thread.so.1.49.0",
@@ -31,10 +37,6 @@ public class SDHash_JNI {
     private static final String arch = System.getProperty("os.arch").toLowerCase();
     
     private static final SDHash_JNI jni = new SDHash_JNI();
-
-    private native String getSDBF(String filename, ByteBuffer content, int length);
-
-    private native String compare(ByteBuffer sdbfs, int threshold);
 
     static {
         try {
@@ -120,6 +122,19 @@ public class SDHash_JNI {
         buffer.put(content);
 
         return jni.compare(buffer, 1);
+    }
+    
+    public static String compareWith(String sdbf, String with) {
+        byte[] content = sdbf.getBytes();
+        byte[] existing = with.getBytes();
+
+        ByteBuffer buffer = ByteBuffer.allocateDirect(content.length);
+        ByteBuffer existingBuffer = ByteBuffer.allocateDirect(existing.length);
+
+        buffer.put(content);
+        existingBuffer.put(existing);
+
+        return jni.compareWith(buffer, existingBuffer, 1);
     }
 
     public static String digestBytes(String filename, byte[] content) {

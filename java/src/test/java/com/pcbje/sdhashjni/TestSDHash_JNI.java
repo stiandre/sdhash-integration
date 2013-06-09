@@ -91,4 +91,19 @@ public class TestSDHash_JNI {
 
         assertNotNull(baos.toString().trim());
     }
+    
+    @Test
+    public void testCompareWith() throws Exception {
+        StringBuilder sdbf1 = new StringBuilder();
+        StringBuilder sdbf2 = new StringBuilder();
+
+        sdbf1.append(SDHash_JNI.digestFile(getClass().getClassLoader().getResource("folder/" + FILENAME).getPath()));
+        sdbf2.append(SDHash_JNI.digestFile(getClass().getClassLoader().getResource("folder/" + FILENAME_COMPARE).getPath()));
+
+        String result = SDHash_JNI.compareWith(sdbf1.toString(), sdbf2.toString());
+
+        assertNotNull(result);
+
+        assertEquals(FILENAME + "|" + FILENAME_COMPARE + "|087\n", result);
+    }
 }

@@ -39,6 +39,8 @@ JNIEXPORT jstring JNICALL Java_com_pcbje_sdhashjni_SDHash_1JNI_compare
 
         std::string resultlist = set1->compare_all(threshold);
 
+        delete set1;
+
         return env->NewStringUTF(resultlist.c_str());
     } catch (int e) {
         cout << "An exception occurred. Exception Nr. " << e << " with input:\n";
@@ -74,6 +76,9 @@ JNIEXPORT jstring JNICALL Java_com_pcbje_sdhashjni_SDHash_1JNI_compareWith
         fclose(in2);
 
         std::string resultlist = set1->compare_to(set2, threshold, 0);
+
+        delete set1;
+        delete set2;
 
         return env->NewStringUTF(resultlist.c_str());
     } catch (int e) {

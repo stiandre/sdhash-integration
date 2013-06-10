@@ -5,8 +5,6 @@ SDHASH_JAVA = java/src/main/cpp/sdhash_jni.cc
 CC = g++
 LD = $(CC)
 
-ARCH = $(shell uname)
-
 SDHASH_OBJ = $(SDHASH_SRC:.cc=.o)
 JAVA_OBJ = $(SDHASH_JAVA:.cc=.o)
 SDBF_OBJ = $(SDBF_SRC:.cc=.o)
@@ -18,12 +16,12 @@ ifeq ($(shell uname),Linux)
 
 	EXTENSION=so.1.49.0
 
-	ifneq (,$(findstring "64",$ARCH))
-		PLATFORM=linux-x64	
-    	SHARED_LIB=libsdhash_jni-linux-x64.so
+	ifeq ($(shell uname -m), x86_64)
+		PLATFORM=linux-x64
+	    	SHARED_LIB=libsdhash_jni-linux-x64.so
 	else
 		PLATFORM=linux-x86
-        SHARED_LIB=libsdhash_jni-linux-x86.so
+        	SHARED_LIB=libsdhash_jni-linux-x86.so
 	endif
 
 	LDFLAGS = -L . -L./external/stage/lib -lboost_regex -lboost_system -lboost_filesystem -lboost_program_options -lc -lm -lcrypto -lboost_thread -lpthread -shared -Wl,-soname -o $(SHARED_LIB)
